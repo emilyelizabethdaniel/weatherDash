@@ -1,11 +1,19 @@
 var saveBtn = $('#saveBtn');
 var cityToSearch = $("#city-search").val();
+var addName = $("#city-name");
+var addTemp = $("#temp");
+var addHumidity = $("humidity");
+var addWind = $("#wind")
 
 console.log(cityToSearch);
 
+
+
 saveBtn.on('click', function(event) {
     event.preventDefault();
+
     getWeatherData();
+    addName.css('display', 'none');
 });
 
 function getWeatherData() {
@@ -18,7 +26,15 @@ function getWeatherData() {
         .then(function(response) {
             if (response.ok) {
                 response.json().then(function(data) {
-                    console.log(data, cityToSearch);
+                    var cityName = cityToSearch;
+                    var cityTemp = data.main.temp;
+                    var cityHumidity = data.main.humidity;
+                    var wind = data.wind.speed;
+                    addName.append(cityName);
+                    addTemp.append(cityTemp);
+                    addHumidity.append(cityHumidity);
+                    addWind.append(wind);
+                    console.log(humidity);
                 });
             } else {
                 alert('Error: ' + response.statusText);
@@ -27,4 +43,25 @@ function getWeatherData() {
         .catch(function(error) {
             alert('Unable to connect to Weather Dashboard');
         });
-}
+};
+
+// function displayCurrentCityDay() {
+
+//         var cityName = cityToSearch;
+//         var cityTemp = data.main.temp;
+//         var cityHumidity = data.main.humidity;
+//         var wind = data.wind.speed;
+//         addName.append(cityName);
+//         addTemp.append(cityTemp);
+//         addHumidity.append(cityHumidity);
+//         addWind.append(wind);  
+// };
+
+
+//save city 
+
+//make cities a button
+
+//city buttons get weather data
+
+//city buttons show up upon refresh
