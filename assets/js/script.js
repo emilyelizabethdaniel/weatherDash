@@ -6,13 +6,14 @@ var addWind = $("#wind")
 var dailyCityWeather = $('#daily-city-weather');
 var savedCities = $('saved-cities');
 var APIkey = "3eaff4dcea866e57c4766356b8dd3f28";
-var cityButton = $('<h1>hi all</h1>');
-savedCities.append(cityButton);
+var cityButton = $('.city-buttons');
+
 
 saveBtn.on('click', function(event) {
     event.preventDefault();
     var cityName = getCityName();
     getWeatherData(cityName);
+    saveCityButton();
 });
 
 
@@ -21,11 +22,11 @@ function getCityName() {
 };
 
 function saveCityButton() {
-    cityButton.text("test");
-    savedCities.append.cityButton;
+    cityButton.append(getCityName());
+    localStorage.setItem('newcityname', getCityName());
+
 };
 
-saveCityButton();
 
 function getWeatherData(cityName) {
 
@@ -44,9 +45,9 @@ function getWeatherData(cityName) {
                     var cityHumidity = data.main.humidity;
                     var cityWind = data.wind.speed;
                     addName.append(cityName);
-                    addTemp.append(cityTemp);
-                    h.append(cityHumidity);
-                    addWind.append(cityWind);
+                    addTemp.append("Temp: " + cityTemp);
+                    h.append("Humidity: " + cityHumidity);
+                    addWind.append("Wind: " + cityWind);
                 });
             } else {
                 alert('Error: ' + response.statusText);
