@@ -1,5 +1,4 @@
 var saveBtn = $('#saveBtn');
-var cityToSearch = $("#city-search").val();
 var addName = $("#city-name");
 var addTemp = $("#temp");
 var h = $("#h");
@@ -9,21 +8,21 @@ var savedCities = $('saved-cities');
 var APIkey = "3eaff4dcea866e57c4766356b8dd3f28";
 
 
-
-
 saveBtn.on('click', function(event) {
     event.preventDefault();
-    // dailyCityWeather.h3.remove();
-    // dailyCityWeather.p.remove();
-    getWeatherData();
+    var cityName = getCityName();
+    getWeatherData(cityName);
 });
 
+function getCityName() {
+    return $("#city-search").val();
+};
 
-function getWeatherData() {
-    cityToSearch = $("#city-search").val();
-    var requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityToSearch + "&units=imperial&appid=" + APIkey;
+function getWeatherData(cityName) {
+
+    var requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + APIkey;
     console.log(requestUrl);
-    var fiveDayRequest = "https://api.openweathermap.org/data/2.5/forecast?q= " + cityToSearch + "&appid=" + APIkey;
+    var fiveDayRequest = "https://api.openweathermap.org/data/2.5/forecast?q= " + cityName + "&appid=" + APIkey;
 
     /////////////////////////////////////////////////////////////CURRENT DAY REQUEST/////////////////////
 
@@ -32,7 +31,6 @@ function getWeatherData() {
             if (response.ok) {
                 response.json().then(function(data) {
                     console.log(data);
-                    var cityName = cityToSearch;
                     var cityTemp = data.main.temp;
                     var cityHumidity = data.main.humidity;
                     var cityWind = data.wind.speed;
@@ -40,7 +38,6 @@ function getWeatherData() {
                     addTemp.append(cityTemp);
                     h.append(cityHumidity);
                     addWind.append(cityWind);
-
                 });
             } else {
                 alert('Error: ' + response.statusText);
