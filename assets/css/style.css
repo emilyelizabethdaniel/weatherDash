@@ -25,3 +25,10 @@ header {
     margin-bottom: 25px;
     color: white;
 }
+
+#search-column {
+    background-color: #8998E5;
+    border-radius: 10px;
+    min-height: 500px;
+    text-align: center;
+}
