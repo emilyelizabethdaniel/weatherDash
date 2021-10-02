@@ -2,7 +2,8 @@ var saveBtn = $('#saveBtn');
 var addName = $("#city-name");
 var addTemp = $("#temp");
 var h = $("#h");
-var addWind = $("#wind")
+var addWind = $("#wind");
+var addUvi = $("#uvi");
 var dailyCityWeather = $('#daily-city-weather');
 var savedCities = $('saved-cities');
 var APIkey = "3eaff4dcea866e57c4766356b8dd3f28";
@@ -22,7 +23,6 @@ function getCityName() {
 };
 
 function addButtonToSavedCityDiv() {
-    debugger;
     var $input = $(`<input type="button" value="${getCityName()}" />`);
     $input.appendTo($("#saved-cities"));
 
@@ -51,24 +51,34 @@ function getWeatherData(cityName) {
             if (response.ok) {
                 response.json().then(function(data) {
                     console.log(data);
-                    // var cityTemp = data.main.temp;
-                    // var cityHumidity = data.main.humidity;
-                    // var cityWind = data.wind.speed;
-                    // addName.append(cityName);
-                    // addTemp.append("Temp: " + cityTemp);
-                    // h.append("Humidity: " + cityHumidity);
-                    // addWind.append("Wind: " + cityWind);
-
                     ////////////////////////////////////////////////////////////////////////////LAT AND LONG PULL///////////////////////
                     var lat = data.coord.lat;
                     var lon = data.coord.lon;
                     console.log(lat, lon);
-                    var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly,daily&appid=" + APIkey;
+                    var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly,daily&units=imperial&appid=" + APIkey;
                     fetch(oneCallUrl)
                         .then(function(response) {
                             if (response.ok) {
                                 response.json().then(function(data) {
                                     console.log(data);
+                                    var cityTemp = data.current.temp;
+                                    var cityHumidity = data.current.humidity;
+                                    var cityWind = data.current.wind_speed;
+                                    var uvIndex = data.current.uvi;
+                                    addName.append(cityName);
+                                    addTemp.append("Temp: " + cityTemp);
+                                    h.append("Humidity: " + cityHumidity);
+                                    addWind.append("Wind: " + cityWind);
+                                    addUvi.append("UV Index: " + uvIndex);
+                                    console.log(uvIndex);
+
+                                    if (uvIndex <= 2) {
+                                        dailyCityWeather.css("background-color", "green");
+                                    } else if (uvIndex > 3 && uvIndex <= 7) {
+                                        dailyCityWeather.css("background-color", "yellow");
+                                    } else(uvIndex > 8)
+                                    dailyCityWeather.css("background-color", "white");
+
                                 });
                             } else {
                                 alert('Error: ' + response.statusText);
