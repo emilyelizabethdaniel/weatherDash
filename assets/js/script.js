@@ -9,7 +9,7 @@ var h = $("#h");
 var addWind = $("#wind");
 var addUvi = $("#uvi");
 var dailyCityWeather = $('#daily-city-weather');
-var savedCities = $('saved-cities');
+var savedCities = $('#saved-cities');
 var APIkey = "3eaff4dcea866e57c4766356b8dd3f28";
 var savedCitiesDiv = $('.saved-cities');
 var dayOneInfo = $('#day-one-info');
@@ -69,8 +69,19 @@ function addButtonToSavedCityDiv() {
     var $input = $(`<input type="button" value="${getCityName()}" onclick=handleSavedCityButtonClick(this) />`);
     $input.addClass("city-button-styling");
     $input.appendTo($("#saved-cities"));
-    localStorage.setItem('newcityname', getCityName());
+    var allCities = [];
+    allCities.push($input.val());
+    localStorage.setItem('newcityname', allCities);
 };
+
+//---------------------------------------------------------------------//
+//gets data from local storage//
+//---------------------------------------------------------------------//
+function getStoredCityNames() {
+    var getCityButton = localStorage.getItem('newcityname', allCities);
+    var $showCityButton = $(`<input type="button" value="${getCityButton}" onclick=handleSavedCityButtonClick(this) />`);
+    $showCityButton.appendTo($("#saved-cities"));
+}
 
 //---------------------------------------------------------------------//
 //displays the weather value for current city changes uv color//
