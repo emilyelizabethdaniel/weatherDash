@@ -1,8 +1,9 @@
 #daily-city-weather {
-    border-radius: 10px;
     min-height: 300px;
     background-color: #9BB0EE;
     padding: 10px;
+    max-width: 660px;
+    text-align: center;
 }
 
 h3 {
@@ -32,4 +33,39 @@ header {
     border-radius: 10px;
     min-height: 500px;
     text-align: center;
+}
+
+#weather-info-day-0 {
+    border: 1px solid blue;
+    background-color: #BDEBFC;
+    margin: 15px;
+    max-width: 200px;
+}
+
+#weather-info-day-1 {
+    border: 1px solid blue;
+    background-color: #CBEFFD;
+    margin: 15px;
+    max-width: 200px;
+}
+
+#weather-info-day-2 {
+    border: 1px solid blue;
+    background-color: #D8F3FD;
+    margin: 15px;
+    max-width: 200px;
+}
+
+#weather-info-day-3 {
+    border: 1px solid blue;
+    background-color: #E5F7FE;
+    margin: 15px;
+    max-width: 200px;
+}
+
+#weather-info-day-4 {
+    border: 1px solid blue;
+    background-color: #F2FBFE;
+    margin: 15px;
+    max-width: 200px;
 }

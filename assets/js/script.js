@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------//
 
 var saveBtn = $('#saveBtn');
-var addName = $("#city-name-value");
+var addName = $("#city-name");
 var addTemp = $("#temp");
 var h = $("#h");
 var addWind = $("#wind");
@@ -86,11 +86,17 @@ function setCurrentWeatherPanel(data, cityName) {
     addUvi.append("UV Index: " + uvIndex);
 
     if (uvIndex <= 2) {
-        dailyCityWeather.css("background-color", "#A5E9A1");
+        dailyCityWeather.css("background-color", "#DDFB96");
+        dailyCityWeather.css("border", "2px solid green");
+        // alert("UV is low")
     } else if (uvIndex > 3 && uvIndex <= 7) {
-        dailyCityWeather.css("background-color", "#FFF49C");
-    } else if (uvIndex > 8) {
+        dailyCityWeather.css("background-color", "#FBEA96");
+        dailyCityWeather.css("border", "2px solid yellow");
+        // alert("UV index is Moderate")
+    } else if (uvIndex > 7) {
         dailyCityWeather.css("background-color", "#F37070");
+        dailyCityWeather.css("border", "2px solid red");
+        // alert("UV index High!");
     }
 };
 
@@ -107,18 +113,19 @@ function setFirstDayWeatherPanel(data, dayNumber) {
     var dayOneWind = data.daily[dayNumber].wind_speed;
     var dayOneIcon = data.daily[dayNumber].weather[0].icon;
 
-    var $dayOneAppendIcon = $(`<p>${dayOneIcon}</p>`);
     var $dayOneAppendTemp = $(`<p>Temp: ${dayOneTemp}</p>`);
     var $dayOneAppendUv = $(`<p>UV: ${dayOneUv}</p>`);
     var $dayOneAppendHumidity = $(`<p>Humidity: ${dayOneHumidity}</p>`);
     var $dayOneAppendWind = $(`<p>Wind Speed: ${dayOneWind}</p>`);
+    var iconurl = "http://openweathermap.org/img/w/" + dayOneIcon + ".png";
 
-    $dayOneAppendIcon.appendTo($('#weather-info-day-' + dayNumber));
+
+    $('#weather-info-day-' + dayNumber).prepend($('<img>', { id: 'theImg', src: iconurl }))
     $dayOneAppendTemp.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendHumidity.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendUv.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendWind.appendTo($('#weather-info-day-' + dayNumber));
-
+    $('#wicon').attr('src', iconurl);
 };
 
 //---------------------------------------------------------------------//
