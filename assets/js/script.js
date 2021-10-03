@@ -1,5 +1,9 @@
+//---------------------------------------------------------------------//
+//global variables//
+//---------------------------------------------------------------------//
+
 var saveBtn = $('#saveBtn');
-var addName = $("#city-name");
+var addName = $("#city-name-value");
 var addTemp = $("#temp");
 var h = $("#h");
 var addWind = $("#wind");
@@ -10,32 +14,65 @@ var APIkey = "3eaff4dcea866e57c4766356b8dd3f28";
 var savedCitiesDiv = $('.saved-cities');
 var dayOneInfo = $('#day-one-info');
 
-
-saveBtn.on('click', function(event) {
-    event.preventDefault();
-
-    var cityName = getCityName();
-    getWeatherData(cityName);
-    addButtonToSavedCityDiv();
-});
-
+//---------------------------------------------------------------------//
+//saving local variable as global variable//
+//---------------------------------------------------------------------//
 
 function getCityName() {
     return $("#city-search").val();
 };
 
+//---------------------------------------------------------------------//
+//function to clear all info before repopulating
+//---------------------------------------------------------------------//
+
+function clearData() {
+    addTemp.empty();
+    h.empty();
+    addWind.empty();
+    addUvi.empty();
+    $('#weather-info-day-0').empty();
+    $('#weather-info-day-1').empty();
+    $('#weather-info-day-2').empty();
+    $('#weather-info-day-3').empty();
+    $('#weather-info-day-4').empty();
+};
+
+//---------------------------------------------------------------------//
+//search city button click, brings up weather data//
+//---------------------------------------------------------------------//
+
+saveBtn.on('click', function(event) {
+    event.preventDefault();
+    clearData();
+    var cityName = getCityName();
+    getWeatherData(cityName);
+    addButtonToSavedCityDiv();
+});
+
+//---------------------------------------------------------------------//
+//when saved ciy button is clicked, it brings up the weather data//
+//---------------------------------------------------------------------//
+
 function handleSavedCityButtonClick(savedButton) {
-    alert("ur mom is not a hoe, excent for in " + savedButton.value);
+    alert("ur mom is not a hoe, except for in " + savedButton.value);
+    clearData();
     getWeatherData(savedButton.value);
-}
+};
+
+//---------------------------------------------------------------------//
+//makes the button of the city name, and saves to local storage//
+//---------------------------------------------------------------------//
 
 function addButtonToSavedCityDiv() {
-    var newButtonHtmlString = '<input type="button" value="' + getCityName() + '" onclick=handleSavedCityButtonClick(this) />';
-    var $input = $(newButtonHtmlString);
     var $input = $(`<input type="button" value="${getCityName()}" onclick=handleSavedCityButtonClick(this) />`);
     $input.appendTo($("#saved-cities"));
     localStorage.setItem('newcityname', getCityName());
 };
+
+//---------------------------------------------------------------------//
+//displays the weather value for current city changes uv color//
+//---------------------------------------------------------------------//
 
 function setCurrentWeatherPanel(data, cityName) {
     var cityTemp = data.current.temp;
@@ -49,16 +86,20 @@ function setCurrentWeatherPanel(data, cityName) {
     addUvi.append("UV Index: " + uvIndex);
 
     if (uvIndex <= 2) {
-        dailyCityWeather.css("background-color", "green");
+        dailyCityWeather.css("background-color", "#A5E9A1");
     } else if (uvIndex > 3 && uvIndex <= 7) {
-        dailyCityWeather.css("background-color", "yellow");
+        dailyCityWeather.css("background-color", "#FFF49C");
     } else if (uvIndex > 8) {
-        dailyCityWeather.css("background-color", "red");
+        dailyCityWeather.css("background-color", "#F37070");
     }
 };
 
-function setFirstDayWeatherPanel(data, dayNumber) {
+//---------------------------------------------------------------------//
+//displays the 5 days when called with number//
 
+//---------------------------------------------------------------------//
+
+function setFirstDayWeatherPanel(data, dayNumber) {
 
     var dayOneTemp = data.daily[dayNumber].temp.day;
     var dayOneHumidity = data.daily[dayNumber].humidity;
@@ -66,32 +107,33 @@ function setFirstDayWeatherPanel(data, dayNumber) {
     var dayOneWind = data.daily[dayNumber].wind_speed;
     var dayOneIcon = data.daily[dayNumber].weather[0].icon;
 
-    var $dayOneAppendTemp = $(`<p>${dayOneTemp}</p>`);
-    var $dayOneAppendUv = $(`<p>${dayOneUv}</p>`);
-    var $dayOneAppendHumidity = $(`<p>${dayOneHumidity}</p>`);
-    var $dayOneAppendWind = $(`<p>${dayOneWind}</p>`);
     var $dayOneAppendIcon = $(`<p>${dayOneIcon}</p>`);
+    var $dayOneAppendTemp = $(`<p>Temp: ${dayOneTemp}</p>`);
+    var $dayOneAppendUv = $(`<p>UV: ${dayOneUv}</p>`);
+    var $dayOneAppendHumidity = $(`<p>Humidity: ${dayOneHumidity}</p>`);
+    var $dayOneAppendWind = $(`<p>Wind Speed: ${dayOneWind}</p>`);
 
+    $dayOneAppendIcon.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendTemp.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendHumidity.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendUv.appendTo($('#weather-info-day-' + dayNumber));
     $dayOneAppendWind.appendTo($('#weather-info-day-' + dayNumber));
-    $dayOneAppendIcon.appendTo($('#weather-info-day-' + dayNumber));
+
 };
 
+//---------------------------------------------------------------------//
+//doing all the fetching of data//
+//---------------------------------------------------------------------//
 
 function getWeatherData(cityName) {
 
     var requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + APIkey;
-
-    /////////////////////////////////////////////////////////////CURRENT DAY REQUEST/////////////////////
 
     fetch(requestUrl)
         .then(function(response) {
             if (response.ok) {
                 response.json().then(function(data) {
                     console.log(data);
-                    ////////////////////////////////////////////////////////////////////////////LAT AND LONG PULL///////////////////////
                     var lat = data.coord.lat;
                     var lon = data.coord.lon;
                     console.log(lat, lon);
@@ -108,8 +150,6 @@ function getWeatherData(cityName) {
                                     setFirstDayWeatherPanel(data, 2);
                                     setFirstDayWeatherPanel(data, 3);
                                     setFirstDayWeatherPanel(data, 4);
-
-
                                 });
 
                             } else {
@@ -120,12 +160,7 @@ function getWeatherData(cityName) {
                             alert('Unable to connect to Weather Dashboard');
 
                         });
-
-
-                    //city buttons get weather data
-
-                    //city buttons show up upon refresh
                 })
             }
         })
-}
+};

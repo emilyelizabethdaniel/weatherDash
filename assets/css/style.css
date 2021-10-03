@@ -9,7 +9,8 @@ h3 {
     padding: 20px;
 }
 
-#five-day-forecast p {
+
+/* #five-day-forecast  {
     min-height: 150px;
     background-color: #CDD7F6;
     margin: 7px;
@@ -17,7 +18,7 @@ h3 {
     text-align: center;
     top: 0;
     left: 0;
-}
+} */
 
 header {
     background-color: #6175DD;
