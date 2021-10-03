@@ -27,6 +27,7 @@ function getCityName() {
 //---------------------------------------------------------------------//
 
 function clearData() {
+    addName.empty();
     addTemp.empty();
     h.empty();
     addWind.empty();
@@ -66,6 +67,7 @@ function handleSavedCityButtonClick(savedButton) {
 
 function addButtonToSavedCityDiv() {
     var $input = $(`<input type="button" value="${getCityName()}" onclick=handleSavedCityButtonClick(this) />`);
+    $input.addClass("city-button-styling");
     $input.appendTo($("#saved-cities"));
     localStorage.setItem('newcityname', getCityName());
 };
@@ -87,22 +89,21 @@ function setCurrentWeatherPanel(data, cityName) {
 
     if (uvIndex <= 2) {
         dailyCityWeather.css("background-color", "#DDFB96");
-        dailyCityWeather.css("border", "2px solid green");
+        dailyCityWeather.css("border", "1px solid green");
         // alert("UV is low")
     } else if (uvIndex > 3 && uvIndex <= 7) {
         dailyCityWeather.css("background-color", "#FBEA96");
-        dailyCityWeather.css("border", "2px solid yellow");
+        dailyCityWeather.css("border", "1px solid yellow");
         // alert("UV index is Moderate")
     } else if (uvIndex > 7) {
         dailyCityWeather.css("background-color", "#F37070");
-        dailyCityWeather.css("border", "2px solid red");
+        dailyCityWeather.css("border", "1px solid red");
         // alert("UV index High!");
     }
 };
 
 //---------------------------------------------------------------------//
 //displays the 5 days when called with number//
-
 //---------------------------------------------------------------------//
 
 function setFirstDayWeatherPanel(data, dayNumber) {
