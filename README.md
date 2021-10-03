@@ -5,7 +5,7 @@ Build a weather app using a third party api that allows you to search by city na
 
 ## screenshot
 
-![screenshot of app](./assets.images.screenshot.png)
+![screenshot of app](assets/images/screenshot.png)
 
 
 ## links
