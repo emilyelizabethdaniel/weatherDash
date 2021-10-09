@@ -81,7 +81,7 @@ function getStoredCityNames() {
     var getCityButton = localStorage.getItem('newcityname', allCities);
     var $showCityButton = $(`<input type="button" value="${getCityButton}" onclick=handleSavedCityButtonClick(this) />`);
     $showCityButton.appendTo($("#saved-cities"));
-}
+};
 
 //---------------------------------------------------------------------//
 //displays the weather value for current city changes uv color//
