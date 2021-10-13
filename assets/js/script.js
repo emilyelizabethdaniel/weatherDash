@@ -56,7 +56,6 @@ saveBtn.on('click', function(event) {
 //---------------------------------------------------------------------//
 
 function handleSavedCityButtonClick(savedButton) {
-    alert("ur mom is not a hoe, except for in " + savedButton.value);
     clearData();
     getWeatherData(savedButton.value);
 };
@@ -146,7 +145,7 @@ function setFirstDayWeatherPanel(data, dayNumber) {
 
 function getWeatherData(cityName) {
 
-    var requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + APIkey;
+    var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + APIkey;
 
     fetch(requestUrl)
         .then(function(response) {
